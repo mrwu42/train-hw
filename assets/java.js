@@ -1,11 +1,12 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyB0MGhQhLb8ZM2M4qlqvGHUcq30KRMh-UE",
-    authDomain: "project1-60852.firebaseapp.com",
-    databaseURL: "https://project1-60852.firebaseio.com",
-    projectId: "project1-60852",
-    storageBucket: "project1-60852.appspot.com",
-    messagingSenderId: "850163236643",
-    appId: "1:850163236643:web:27e59e0c9bbb8f3bf39696"
+var firebaseConfig = {
+    apiKey: "AIzaSyCXlF-_hixBYTI0rSzOVqcS2K4a8SlABAg",
+    authDomain: "train-6f27e.firebaseapp.com",
+    databaseURL: "https://train-6f27e.firebaseio.com",
+    projectId: "train-6f27e",
+    storageBucket: "train-6f27e.appspot.com",
+    messagingSenderId: "198859784844",
+    appId: "1:198859784844:web:109e25f2177ef0aeb771a9",
+    measurementId: "G-09SW3HXB7T"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
@@ -17,6 +18,21 @@ $("#addTrainBtn").on("click", function(){
     var destination = $("#destinationInput").val().trim();
     var firstTrain = moment($("#firstTrainInput").val().trim(), "HH:MM").subtract(10, "years").format("X");
     var frequency = $("#frequencyInput").val().trim();
+
+    var newTrain = {
+        name: trainName,
+        destination: destination,
+        firstTrain: firstTrain,
+        frequency: frequency
+    }
+
+    trainData.ref().push(newTrain)
+
+    $("#trainNameInput").val("");
+    $("#destinationInput").val("");
+    $("#firstTrainInput").val("");
+    $("#frequencyInput").val("");
+
     return false;
 })
 
@@ -30,6 +46,8 @@ trainData.ref().on("child_added", function(snapshot){
     var minutes = frequency - remainder;
     var arrival = moment().add(minutes, "m").format("hh:mm A");
 
-    $("trainTable > tBody").append("<tr><td>" + name + "<td><td>" + destination +"<tr><td>" + frequency + "<td><td>" + arrival + "<td><td>" + minutes + "<td><tr>");
+    console.log(remainder)
+
+    $("trainTable > tBody").append("<tr><td>" + name + "</td><td>" + destination +"</td><td>" + frequency + "</td><td>" + arrival + "</td><td>" + minutes + "</td></tr>");
     
 })
