@@ -13,6 +13,12 @@ var firebaseConfig = {
 
 var trainData = firebase.database();
 
+var name;
+var destination;
+var firstTrain;
+var frequency = 0;
+
+
 $("#addTrainBtn").on("click", function(){
     var trainName = $("#trainNameInput").val().trim();
     var destination = $("#destinationInput").val().trim();
@@ -33,21 +39,24 @@ $("#addTrainBtn").on("click", function(){
     $("#firstTrainInput").val("");
     $("#frequencyInput").val("");
 
-    $("#traintable").append("<tr><td>" + trainName + "</td><td>" + destination +"</td><td>" + frequency + "</td><td>" + firstTrain + "</td></tr>");
     return false;
 })
 
-// trainData.ref().on("child_added", function(snapshot){
-//     var name = snapshot.val().name;
-//     var destination = snapshot.val().destination;
-//     var frequency = snapshot.val().frequency;
-//     var firstTrain = snapshot.val().firstTrain;
+trainData.ref().on("child_added", function(snapshot){
+    var name = snapshot.val().name;
+    var destination = snapshot.val().destination;
+    var frequency = snapshot.val().frequency;
+    var firstTrain = snapshot.val().firstTrain;
 
-//     var remainder = moment().diff(moment.unix(firstTrain), "minutes") %frequency;
-//     var minutes = frequency - remainder;
-//     var arrival = moment().add(minutes, "m").format("hh:mm A");
+    var remainder = moment().diff(moment.unix(firstTrain), "minutes") %frequency;
+    var minutes = frequency - remainder;
+    var arrival = moment().add(minutes, "m").format("hh:mm A");
 
-//     console.log(remainder)
+    console.log(remainder);
+    console.log(destination);
+    console.log(frequency);
+    console.log(firstTrain);
 
+    $("trainTable > tBody").append("<tr><td>" + name + "</td><td>" + destination +"</td><td>" + frequency + "</td><td>" + arrival + "</td><td>" + minutes + "</td></tr>");
     
-// })
+})
